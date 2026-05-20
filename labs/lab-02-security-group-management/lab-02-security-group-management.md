@@ -35,7 +35,7 @@ In production, these groups would also be candidates for dynamic membership rule
 
 Navigated to Groups in the Azure portal and confirmed no groups existed. This is the starting state before any access control structure is in place.
 
-![Groups Baseline](<screenshots/GitHub Labs Lab 02 - Group & Membership Management/01-groups-baseline.png>)
+![Groups Baseline](screenshots/01-groups-baseline.png)
 *Groups page showing 0 groups — clean starting state.*
 
 ### Step 2 — Create SG-CA-MFA (Conditional Access Target Group)
@@ -48,10 +48,10 @@ The first group created was SG-CA-MFA. In a P1 environment this group would be a
 - **Membership type:** Assigned
 - **Members:** All 21 users
 
-![SG-CA-MFA Creation](<screenshots/GitHub Labs Lab 02 - Group & Membership Management/02-new-group-sec-mfa-enforced.png>)
+![SG-CA-MFA Creation](screenshots/02-new-group-sec-mfa-enforced.png)
 *New group form for SG-CA-MFA with all 21 users selected.*
 
-![SG-CA-MFA Created](<screenshots/GitHub Labs Lab 02 - Group & Membership Management/03-groups-sg-ca-mfa-created.png>)
+![SG-CA-MFA Created](screenshots/03-groups-sg-ca-mfa-created.png)
 *SG-CA-MFA live in the tenant.*
 
 ### Step 3 — Create App-Based Groups with Separation of Duties
@@ -63,16 +63,16 @@ Keeping these as separate groups means you can assign different application role
 **SG-App-PowerBI-Admins**
 - 3 members — small by design, admin access should always be restricted
 
-![PowerBI Admins Group](<screenshots/GitHub Labs Lab 02 - Group & Membership Management/04-new-group-sg-app-powerbi-admins.png>)
+![PowerBI Admins Group](screenshots/04-new-group-sg-app-powerbi-admins.png)
 *SG-App-PowerBI-Admins with 3 members selected.*
 
 **SG-App-PowerBI-Users**
 - 7 members — broader access, view and interact only
 
-![PowerBI Users Group](<screenshots/GitHub Labs Lab 02 - Group & Membership Management/05-new-group-sg-app-powerbi-users.png>)
+![PowerBI Users Group](screenshots/05-new-group-sg-app-powerbi-users.png)
 *SG-App-PowerBI-Users with 7 members selected.*
 
-![Three Groups Created](<screenshots/GitHub Labs Lab 02 - Group & Membership Management/06-three-groups-created.png>)
+![Three Groups Created](screenshots/06-three-groups-created.png)
 *Three groups live after creating the CA and PowerBI groups.*
 
 ### Step 4 — Create RBAC Role Assignment Groups
@@ -85,21 +85,21 @@ This approach scales better than direct role assignment and makes it easier to a
 - Maps to the Helpdesk Administrator role in Entra ID
 - 4 members — support staff who need password reset and basic user management capabilities
 
-![HelpDesk RBAC Group](<screenshots/GitHub Labs Lab 02 - Group & Membership Management/07-new-group-sg-rbac-helpdesk.png>)
+![HelpDesk RBAC Group](screenshots/07-new-group-sg-rbac-helpdesk.png)
 *SG-RBAC-HelpDesk configured for Helpdesk Administrator role assignment.*
 
 **SG-RBAC-Compliance**
 - Maps to the Global Reader role in Entra ID
 - 4 members — audit and compliance staff who need read-only visibility across the tenant
 
-![Compliance RBAC Group](<screenshots/GitHub Labs Lab 02 - Group & Membership Management/08-new-group-sg-rbac-compliance.png>)
+![Compliance RBAC Group](screenshots/08-new-group-sg-rbac-compliance.png)
 *SG-RBAC-Compliance configured for Global Reader role assignment.*
 
 ### Step 5 — Verify All Groups
 
 After creating all groups, confirmed the full list in the portal. Five security groups covering three distinct use cases.
 
-![All Groups Final](<screenshots/GitHub Labs Lab 02 - Group & Membership Management/09-all-groups-final.png>)
+![All Groups Final](screenshots/09-all-groups-final.png)
 *All 5 groups live in the tenant — CA target, app-based separation of duties, and RBAC containers.*
 
 ## Part 2 — PowerShell
@@ -111,7 +111,7 @@ Connect-MgGraph -Scopes "Group.ReadWrite.All", "GroupMember.ReadWrite.All" `
     -TenantId "b0275963-f730-47b9-90da-7ef6ea7da0f9" -UseDeviceCode
 ```
 
-![PowerShell Connected](<screenshots/GitHub Labs Lab 02 - Group & Membership Management/10-powershell-connected.png>)
+![PowerShell Connected](screenshots/10-powershell-connected.png)
 *Connected to Microsoft Graph via device code authentication.*
 
 ### Create a Group via PowerShell
@@ -128,7 +128,7 @@ $group = New-MgGroup -DisplayName "SG-RBAC-SecOps" `
 Write-Host "Created group: $($group.DisplayName) — ID: $($group.Id)"
 ```
 
-![Create Group PowerShell](<screenshots/GitHub Labs Lab 02 - Group & Membership Management/11-powershell-create-group.png>)
+![Create Group PowerShell](screenshots/11-powershell-create-group.png)
 *SG-RBAC-SecOps created via PowerShell with Group ID returned.*
 
 ### Add Members to a Group via PowerShell
@@ -151,7 +151,7 @@ foreach ($upn in $members) {
 }
 ```
 
-![Add Members PowerShell](<screenshots/GitHub Labs Lab 02 - Group & Membership Management/12-powershell-add-members.png>)
+![Add Members PowerShell](screenshots/12-powershell-add-members.png)
 *Jordan White, Malik Lewis, and Marcus Williams added to SG-RBAC-SecOps.*
 
 ### Export All Groups and Membership to CSV
@@ -188,10 +188,10 @@ $report | Export-Csv -Path "C:\MCS_Groups_Report.csv" -NoTypeInformation
 Write-Host "Report exported to C:\MCS_Groups_Report.csv"
 ```
 
-![Groups Export PowerShell](<screenshots/GitHub Labs Lab 02 - Group & Membership Management/13-powershell-groups-export.png>)
+![Groups Export PowerShell](screenshots/13-powershell-groups-export.png)
 *All 6 groups processed and exported to C:\MCS_Groups_Report.csv.*
 
-![Groups Report Excel](<screenshots/GitHub Labs Lab 02 - Group & Membership Management/14-groups-report-excel.png>)
+![Groups Report Excel](screenshots/14-groups-report-excel.png)
 *Full group membership report — every group, every member, every UPN.*
 
 ## Compliance Mapping
